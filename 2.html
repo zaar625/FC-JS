@@ -1,0 +1,76 @@
+<script>const log = console.log;</script>
+
+## 기존과 달라진 ES6에서의 리스트 순회
+- for i ++
+- for of
+<!-- <script>
+    const list = [1, 2, 3];
+    for(var i = 0; i < list.length; i ++){
+        log(list[i])
+    }
+
+    const str = 'abc';
+    for(var i = 0; i < str.length; i++) {
+        log(str[i]);
+    }
+
+    for(const a of list) {
+        log(a);
+    }
+
+    for(const a of str) {
+        log(a);
+    }
+</script> -->
+
+<script>
+    log('Arr------');
+    const arr = [1,2,3];
+    // arr[Symbol.iterator]= null; 
+    // 위와 같이 심볼 이터레이터를 null 값으로 변경하면, 'arr is not iterable' 이라고 나온다. 
+    // 즉, 배열을 순회하는 방법은 iterator과 관련이 있다.
+    for(const a of arr) log(a);
+    //arr를 순회하면서 value값(a)를 출력하는 것이다.
+</script>
+
+### Set을 통해 알아보기
+
+<script>
+    log('Set----------');
+    const set = new Set([1,2,3]);
+    for(const a of set) log(a)
+    //해당 아래코드처럼 작동한다. 
+    const a = set[Symbol.iterator]();
+    a.next(); //{value:1 , done: false}
+</script>
+
+### Map을 통해 알아보기
+<script>
+    log('Map------------');
+    const map = new Map([['a',1],['b',2],['c',3]]);
+    const b = map[Symbol.iterator]();
+    console.log(b) // MapIterator {...}
+    console.log(b.next()); //{value: Array(2), done: false}
+    const c = map.keys();
+    console.log(c)//['a', 1]
+    console.log(c.next());//{value: 'a', done: false}
+    for(const a of map) log(a);
+
+    for(const a of map.keys()) log(a); // a b c
+    for(const a of map.values()) log(a); ///1 2 3 
+    for(const a of map.entries()) log(a); // ["a",1]
+
+
+</script>
+
+## 이터러블/이터레이터 프로토콜
+    - 이터러블 : 이터레이터를 리턴하는 [Symbol.iterator]() 메서드 를 가진 값
+    - 이터레이터: {value, done} 객체를 리턴하는 next() 메서드 를 가진 값
+    - 이터러블/이터레이터 프로토콜: 이러한 이터러블을 for ...of, 전개 연산자 등과 함께 동작하도록한 규약
+<script>
+    let iterator = arr[Symbol.iterator]();
+    console.log(iterator)
+    console.log(iterator.next()); 
+    //{value:1,done:false}
+    //따라서 for 문의 경우, done 값이 ture이면 해당 함수를 빠져나오도록 되어 있다. 
+</script>
