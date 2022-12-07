@@ -73,4 +73,53 @@
     console.log(iterator.next()); 
     //{value:1,done:false}
     //따라서 for 문의 경우, done 값이 ture이면 해당 함수를 빠져나오도록 되어 있다. 
+    console.clear();
+</script>
+
+## 사용자 정의 이터러블을 통해 알아보기
+<script>
+    const iterable = {
+        [Symbol.iterator](){
+            let i = 3;
+            return {
+                next() {
+                    return i === 0 ? {done:true} : {value: i-- , done: false}
+                },
+                [Symbol.iterator]() {return this;} // next()를 진행하고, 그 이후에 사용할 수  있도록함. 예를 들어 [1,2,3]을 한번 next()를 했으면 2,3만이 출력.
+            }
+        }
+    }
+
+    const arr3 = [1, 2, 3];
+    let iter3 = arr3[Symbol.iterator]();
+    iter3.next();
+    log(iter3[Symbol.iterator]() == iter3);
+    for(const a of iter3) log(a) // next()를 한번 진행했기 때문에 2, 3만이 출력된다. 
+
+    let iterator2 = iterable[Symbol.iterator]();
+    // log(iterator2.next());
+    // log(iterator2.next());
+    // log(iterator2.next());
+    // log(iterator2.next());
+
+    for(const a of iterable) log(a);
+
+    console.clear();
+
+    for(const a of document.querySelectorAll('*')) log(a);
+    const all = document.querySelectorAll('*');
+    let iter4 = all[Symbol.iterator]();
+    log(iter4.next());
+    log(iter4.next());
+    log(iter4.next());
+</script>
+
+## 전개 연산자
+- 전개 연산자도 이터러블 프로토콜을 따른다. 
+- 이터러블이면 전개 연산자를 사용할 수 있다. 
+<script>
+    console.clear();
+    const g = [1,2];
+    //a[Symbol.iterator] = null;
+    log([...g, ...[3,4]]); 
 </script>
