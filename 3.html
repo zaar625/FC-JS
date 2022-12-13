@@ -1,0 +1,86 @@
+<script>const log = console.log;</script>
+
+<script>
+    const products = [
+        {name:'반팔티', price:15000},
+        {name:'긴팔티', price:20000},
+        {name:'핸드폰케이스', price:15000},
+        {name:'후드티', price:30000},
+        {name:'바지', price:25000},
+    ]
+</script>
+
+# filter
+<script>
+
+    const filter = (f, iter) => {
+        let res = [];
+        for(const a of iter){
+            if(f(a)) res.push(a);
+        }
+            return res;
+    }
+    log(filter(p => p.price < 20000, products));
+
+    log(filter(n => n % 2, function *(){
+        yield 1;
+        yield 2;
+        yield 3;
+        yield 4;
+        yield 5;
+    }))
+
+    let under20000 = [];
+    for(const p of products) {
+        if(p.price <20000) under20000.push(p);
+    }
+    log(...under20000);
+</script>
+
+# reduce
+
+<script>
+    console.clear();
+    const nums = [1, 2, 3, 4, 5];
+    let total = 0;
+
+    for(const n of nums) {
+        total = total + n;
+    }
+    log(total);
+
+    //아래 코드는 리듀스 함수를 구현해 본 것이다.
+    const reduce = (f, acc, iter) => {
+        for(const a of iter){
+            acc = f(acc, a);
+        }
+        return acc;
+    };
+
+    const add = (a, b) => a + b;
+
+    log(reduce(add, 0, [1, 2, 3, 4, 5]));
+
+    //일빈적으로 reduce(add, [1,2,3,4,5]) 이렇게 작성하는데, 
+    const reduce2 = (f, acc, iter) => {
+        if(!iter) {
+            iter = acc[Symbol.iterator]();
+            log(iter.next())
+            acc = iter.next().value;
+
+        }
+        for(const a of iter) {
+            acc = f(acc, a);
+        }
+        return acc;
+    }
+
+    log(reduce2(add, [1,2,3,4,5])); //15
+</script>
+
+# 위 상품들의 가격의 총합을 구해보자
+<script>
+    console.clear();
+//리듀스 함수를 정의할 때 인자값을 오른쪽 부터 작성하면 편하다. 즉, 프로덕트들 배열을 받아오고 > 초기값을 설정하고 > 함수
+    log(reduce((total_price, product)=> total_price + product.price, 0, products))
+</script>
