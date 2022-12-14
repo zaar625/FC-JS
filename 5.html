@@ -1,0 +1,48 @@
+<script>const log = console.log;</script>
+
+# 코드를 값으로 다루어 표현력 높이지
+
+## go, pipe
+
+<script>
+    const go = (...args) => reduce((a, f)=> f(a),args);
+    const pipe = (...fs) => (a) => go(a, ...fs);
+    //log(args) rest연산자를 사용하면 배열로 인자를 받아올 수 있다.
+    log(args);
+
+    go(
+        0,
+        a => a + 1,
+        a => a + 10,
+        a => a + 100,
+        log       
+        );
+        //111
+
+    const f = pipe(
+        a => a + 1,
+        a => a + 10,
+        a => a + 100,
+    )
+
+    log(f(0)); //111
+
+    //-------------------------
+    const go2 = (...args) => reduce((a, f)=> f(a),args);
+    const pipe2 = (f, ...fs) => (...as) => go(f(...as), ...fs)
+
+
+    go2(
+        add(0,1),
+        a => a + 10,
+        a => a + 100,
+        )
+        
+    const f2 = pipe2(
+        (a, b) => a + b,
+        a => a + 10,
+        a => a + 100,
+    )
+
+
+</script>
