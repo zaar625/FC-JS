@@ -37,12 +37,18 @@
         a => a + 10,
         a => a + 100,
         )
-        
+
     const f2 = pipe2(
         (a, b) => a + b,
         a => a + 10,
         a => a + 100,
     )
-
-
+</script>
+<script>
+    go(products,
+        products => filter(p => p.price < 20000, products),
+        products => map(p => p.price, products),
+        prices => reduce(add, prices),
+        log
+    );
 </script>
