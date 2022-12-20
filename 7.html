@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        const products = [
+            {name:'반팔티', price: 15000, quntity:1},
+            {name:'긴팔티', price: 20000, quntity:2},
+            {name:'핸드폰케이스', price: 15000, quntity:3},
+            {name:'바지', price: 30000, quntity:4},
+            {name:'바지', price: 25000, quntity:5},
+        ];
+
+        //1.go함수를 이용한 total 구하기.
+        const add = (a, b)=> a + b
+        const total_quantity = products => go(products,
+            map(p=> p.quntity),
+            reduce(add)); //15
+
+            log(total_quantity(products));
+
+        const total_price = pipe(
+            map(p => p.price * p.quantity),
+            reduce(add)
+        )
+        
+        //2. 위 함수를 pipe함수로 간결하게 하기
+        const total_quantity2 = pipe(
+        map(p=> p.quntity),
+        reduce((a, b)=> a + b));
+            
+        
+        //3. total_quantity 와 price 의 공통 로직을 따로 분리하여 더 간단히 하기.
+         const sum = (f, iter) => go(
+            iter,
+            map(f),
+            reduce(add)
+        );
+
+        log(sum(p => p.quantity, products))
+
+        const total_quantity3 = products => sum(p => p.quantity, products);
+            log(total_quantity3(products));
+        const total_price3 = products => sum(p => p.price * p.quantity, products);
+
+        //4. curry함수 이용하기.
+        const sum2 = curry((f, iter) => go(
+            iter,
+            map(f),
+            reduce(add)
+        ));
+
+        const total_quantity4 = sum2(p => p.quantity);
+        log(total_quantity4(products)); //15
+        const total_price4 = sum2(p => p.price * p.quntity);
+        log(total_price4(products));//345000
+    </script>
+</body>
+</html>
