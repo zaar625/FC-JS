@@ -1,0 +1,75 @@
+## range
+-> 숫자를 받아서 숫의 크미나한 배열을 반환하는 함수를 만들어 보자.
+<script>
+const add = (a, b) => a + b;
+
+const range = l => {
+    let i = -1;
+    let res = [];
+    while (++i < l) {
+        res.push(i);
+    }
+    return res;
+}
+
+log(range(5));
+//[0,1,2,3,4];
+
+log(range(2));
+//[0,1];
+
+var list = range(4); 
+log(list); // [0,1,2,3]
+log(reduce(add, list));
+
+</script>
+
+##느긋한 L.range
+<!-- 배열을 만들지 않고, 이터레이터를 만들어서 리듀스함수를 이용하여 더하기해주기. -->
+<script>
+const L = {};
+ L.range = function *(l){
+    let i = -1;
+    while (++i < l) {
+        yield i;
+    }
+    
+}
+
+var list = L.range(4); 
+log(list); // L.range {<suspended>} -> 이터레이터 //결과값: 6 
+log(reduce(add, list));
+</script>
+
+<script>
+    function text(name, time, f) {
+        console.time(name);
+        while (time--) f();
+        console.timeEnd(name);
+    }
+
+    test('range', 10, ()=>reduce(add, range(100000))); // 488.1579ms
+    test('L.range', 10, ()=>reduce(add, range(100000)));//296.4921875ms
+</script>
+
+<script>
+    const take = curry((l, iter) => {
+        let res =[];
+        for(const a of iter) {
+            res.push(a);
+            
+            if(res.length == l) return res;
+        }
+        return res;
+    });
+    log(range(100)); // [0,1,2,3,4..... 100];
+
+    console.time('');
+    log(take(5, range(100)));// [0,1,2,3,4] -> 배열을 먼저 다 만든다음, 5개를 자른다.
+    go(range(10000),take(5), log)
+    console.timeend(''); // 9.27197 ms
+
+    console.time('');
+    log(take(5, L.range(100)));// 배열을 다 만들지 않고, 만들면서 5개의 값만 먼저 만든다. 즉 연산을 미룬다.
+    console.timeEnd('');// 0.438964
+</script>

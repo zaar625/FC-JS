@@ -3,7 +3,7 @@
 ## 기존과 달라진 ES6에서의 리스트 순회
 - for i ++
 - for of
-<!-- <script>
+<script>
     const list = [1, 2, 3];
     for(var i = 0; i < list.length; i ++){
         log(list[i])
@@ -21,7 +21,7 @@
     for(const a of str) {
         log(a);
     }
-</script> -->
+</script>
 
 <script>
     log('Arr------');
@@ -38,6 +38,7 @@
 <script>
     log('Set----------');
     const set = new Set([1,2,3]);
+    console.log(set);
     for(const a of set) log(a)
     //해당 아래코드처럼 작동한다. 
     const a = set[Symbol.iterator]();
@@ -52,7 +53,7 @@
     console.log(b) // MapIterator {...}
     console.log(b.next()); //{value: Array(2), done: false}
     const c = map.keys();
-    console.log(c)//['a', 1]
+    console.log(c)
     console.log(c.next());//{value: 'a', done: false}
     for(const a of map) log(a);
 
@@ -73,7 +74,7 @@
     console.log(iterator.next()); 
     //{value:1,done:false}
     //따라서 for 문의 경우, done 값이 ture이면 해당 함수를 빠져나오도록 되어 있다. 
-    console.clear();
+    // console.clear();
 </script>
 
 ## 사용자 정의 이터러블을 통해 알아보기
@@ -92,7 +93,8 @@
 
     const arr3 = [1, 2, 3];
     let iter3 = arr3[Symbol.iterator]();
-    iter3.next();
+    log(iter3.next());
+    log(iter3)
     log(iter3[Symbol.iterator]() == iter3);
     for(const a of iter3) log(a) // next()를 한번 진행했기 때문에 2, 3만이 출력된다. 
 
@@ -104,7 +106,7 @@
 
     for(const a of iterable) log(a);
 
-    console.clear();
+    // console.clear();
 
     for(const a of document.querySelectorAll('*')) log(a);
     const all = document.querySelectorAll('*');
@@ -118,7 +120,7 @@
 - 전개 연산자도 이터러블 프로토콜을 따른다. 
 - 이터러블이면 전개 연산자를 사용할 수 있다. 
 <script>
-    console.clear();
+    // console.clear();
     const g = [1,2];
     //a[Symbol.iterator] = null;
     log([...g, ...[3,4]]); 
