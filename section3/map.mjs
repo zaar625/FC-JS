@@ -21,7 +21,7 @@ for(const p of products) {
 
 //자바스크립트에서 사용하는 map 함수는 위 로직과 비슷합니다. 
 //map 함수는 고차함수 입니다. 함수의 값을 이용하여 인자로 받아 내가 원하는 시점에서 활용합니다.
-const map = (f, iter) => {
+export const map = (f, iter) => {
     let res = [];
     for(const a of iter) {
         res.push(f(a));
