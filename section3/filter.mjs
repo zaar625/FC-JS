@@ -14,10 +14,10 @@ const products = [
 //   console.log(...under20000)
 
 // 위 코드를 filter함수를 만들어 리팩토링 해보겠습니다.
-const filter = (f, iter) => {
+export const filter = (f, iter) => {
     let res =[];
     for(const a of iter) {
-      if(f(a)) res.push(p);
+      if(f(a)) res.push(a);
     }
     return res;
 }

@@ -15,7 +15,7 @@ for(const n of nums){
 
 console.log(total) //15
 
-const reduce = (f, acc, iter) => {
+export const reduce = (f, acc, iter) => {
     console.log(acc)
     // if문은 reduce(add, [1, 2, 3, 4, 5])일 경우에 필요.
     if(!iter) {
