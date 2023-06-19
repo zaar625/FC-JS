@@ -23,6 +23,8 @@ for (const a of set) console.log('set:',a);
  * a.next();를 실행하면, {value : "a", done:false} 처럼 나오는테 키만 나타나게 됩니다. 원래는 ['a', 1]인데 말이죠.
  * 
  * map.keys(), map.value(), map.entries()
+ * 
+ * map의 경우 ['a', 1]안에는 또 심볼이터러블이 존재합니다. 이를 다시 순회하는 것이죠.
  */
 const map = new Map([['a', 1], ['b', 2], ['c', 3]]);
 for (const a of map) console.log('map:',map);
