@@ -21,7 +21,7 @@ console.log(iterator.next());
 console.log(iterator.next());
 
 //a 에 value 값을 담게 됩니다.
-for (const a of iterable) console.log('iterable:',a );
+for (const a of iterable) console.log('iterable:', a );
 
 const arr2 = [1, 2, 3];
 let iter2 = arr2[Symbol.iterator]();
