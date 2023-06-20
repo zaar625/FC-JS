@@ -1,6 +1,7 @@
 // pipe 함수 : 함수를 리턴하는 함수입니다.
 import { go } from "./01.mjs";
 
+
 // const pipe = (...fs) => (a) => go(a,...fs);
 
 // const f = pipe(
@@ -17,7 +18,7 @@ import { go } from "./01.mjs";
 
 const pipe = (f, ...fs) => (...as) => go(f(...as), ...fs);
 
-const add = (a,b) => a + b;
+const add = (a, b) => a + b;
 
 go(
     add(0, 1),
