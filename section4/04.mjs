@@ -3,13 +3,26 @@
 //curry: 함수를 값으로 다루면서 받아둔 함수를 제가 원하는 시점에 평가시키는 함수. 우선 함수를 받아서 함수를 리턴하고, 
 // 인자를 받아서 인자가 원하는 개수만큼 들어 왔을 때 받아둔 함수를 나중에 평가시키는 함수를 만들어 보겠습니다. 
 
-const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
+// const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
+
+function curry(f) {
+    console.log('curryf',f)
+    return function(a, ..._) {
+        if(_.length) {
+            return f(a, ..._);
+        }
+
+        return function(..._) {
+            return  f(a, ..._);
+        }
+    }
+}
 
 //(f) => (a, ..._ ) => f(a, ..._) 
 //(f) => (a, ..._ ) => (..._) => f(a, ..._)
 
 const mult = curry((a, b) => a * b);
-
+console.log('?',mult(1,2))
 console.log(mult(1)(2)) // 2
 
 const mult3 = mult(3);
@@ -32,7 +45,7 @@ const products = [
 
 const add = (a, b) => a + b;
 
-const map = curry((f, iter) => {
+export const currymap = curry((f, iter) => {
     let res = [];
     for(const a of iter) {
         res.push(f(a));
@@ -41,7 +54,7 @@ const map = curry((f, iter) => {
     return res;
 });
 
-const filter = curry((f, iter) => {
+export const curryfilter = curry((f, iter) => {
     let res =[];
     for(const a of iter) {
       if(f(a)) res.push(a);
@@ -49,7 +62,7 @@ const filter = curry((f, iter) => {
     return res;
 })
 
-const reduce = curry((f, acc, iter) => {
+export const curryreduce = curry((f, acc, iter) => {
 
     if(!iter) {
         iter = acc[Symbol.iterator]();
@@ -64,20 +77,20 @@ const reduce = curry((f, acc, iter) => {
     return acc ;
 });
 
-const go = (...args) => {
-  return  reduce((a, f) => f(a), args)
+export const currygo = (...args) => {
+  return  curryreduce((a, f) => f(a), args)
 }
 
-console.log('not curring',go(
+console.log('not curring',currygo(
     products,
-    products => filter(p => p.price < 20000)(products),
-    products => map(p => p.price)(products),
-    prices => reduce(add)(prices)
+    products => curryfilter(p => p.price < 20000)(products),
+    products => currymap(p => p.price)(products),
+    prices => curryreduce(add)(prices)
 )) // 30000
 
-console.log('curring',go(
+console.log('curring',currygo(
     products,
-    filter(p => p.price < 20000),
-    map(p => p.price),
-    reduce(add)
+    curryfilter(p => p.price < 20000),
+    currymap(p => p.price),
+    curryreduce(add)
 )) // 30000
