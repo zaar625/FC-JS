@@ -1,0 +1,35 @@
+import { reduce } from "../section4/01.mjs";
+
+const add =(a, b) => a + b;
+
+const range = l => {
+    let i = -1;
+    let res = [];
+    while (++i < l) {
+        console.log('range:',i)
+        res.push(i);
+    }
+    return res;
+}
+
+console.log(range(5));
+
+const list = range(3);
+
+console.log("range",reduce(add , list));
+
+//느긋한 L.range
+
+const L = {};
+L.range = function *(l) { 
+    let i = -1;
+    while (++i < l) {
+        console.log('L.range:',i)
+        yield i;
+    }
+}
+
+const list2 = L.range(4);
+console.log('gen:',reduce(add, list2));
+
+//console.log(list)의 경우 배열이 출력되고, console.log(list2) 를 출력해보면, L.range {<suspended>}
