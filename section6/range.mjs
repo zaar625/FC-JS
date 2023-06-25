@@ -33,3 +33,14 @@ const list2 = L.range(4);
 console.log('gen:',reduce(add, list2));
 
 //console.log(list)의 경우 배열이 출력되고, console.log(list2) 를 출력해보면, L.range {<suspended>}
+
+function test(name, time, f) {
+    console.time(name);
+
+    while(time-- ) f() 
+    console.timeEnd(name);
+    
+}
+
+test('range', 10, ()=>reduce(add, range(1000))); //489.075~ ms
+test('range', 10, ()=>reduce(add, L.range(1000))); //295.78125 ms
