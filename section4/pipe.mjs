@@ -16,7 +16,11 @@ import { go } from "./01.mjs";
 //------------------------------------------
 
 
-const pipe = (f, ...fs) => (...as) => go(f(...as), ...fs);
+const pipe = (f, ...fs) => (...as) => {
+    // console.log('as:',as);
+
+    return go(f(...as), ...fs) // go(1, fn)
+};
 
 const add = (a, b) => a + b;
 
@@ -25,6 +29,10 @@ go(
     a => a + 10,
     a => a + 100,
 )
+
+// console.log('test',go(1,
+//     a => a + 10,
+//     a => a + 100,))
 
 const f = pipe(
     (a, b) => a + b,

@@ -17,8 +17,8 @@ export const reduce = (f, acc, iter) => {
     }
 
     for(const a of iter) {
-        console.log(a)
-        console.log(acc)
+        console.log('a:',a) //f
+        console.log('acc:',acc) // 1
         acc = f(acc , a)
     }
     return acc ;

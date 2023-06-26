@@ -4,33 +4,36 @@
 // 인자를 받아서 인자가 원하는 개수만큼 들어 왔을 때 받아둔 함수를 나중에 평가시키는 함수를 만들어 보겠습니다. 
 
 // const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
+//-> curry 함수가 실행할때, 인자로 함수를 받고, 함수를 리턴합니다. 이때 인자의 개수가 2개 이상이면 인자로 받은 함수가 즉시 실행하고, 아니라면, 다시 함수를 리턴합니다. 
+// 리턴된 함수에 그다음 인자를 받고 리턴으로 함수를 실행합니다.
 
 function curry(f) {
-    console.log('curryf',f)
-    return function(a, ..._) {
+    return function(a,..._) {
+        // console.log(a)
+        // console.log('_:',b) // 빈배열
         if(_.length) {
             return f(a, ..._);
         }
 
         return function(..._) {
+            console.log('what:',_)
             return  f(a, ..._);
         }
     }
 }
 
-//(f) => (a, ..._ ) => f(a, ..._) 
+
 //(f) => (a, ..._ ) => (..._) => f(a, ..._)
 
 const mult = curry((a, b) => a * b);
-console.log('?',mult(1,2))
-console.log(mult(1)(2)) // 2
+console.log('mult1',mult(1)(2)) // 2
 
-const mult3 = mult(3);
-console.log(mult3)
+// const mult3 = mult(3);
+// console.log(mult3)
 
-console.log(mult3(10)); //30
-console.log(mult3(5)); //15
-console.log(mult3(3)); //9 
+// console.log(mult3(10)); //30
+// console.log(mult3(5)); //15
+// console.log(mult3(3)); //9 
 
 //----------------------------------------
 //03에서 사용한 로직을 변경해 봅시다.
@@ -69,10 +72,10 @@ export const curryreduce = curry((f, acc, iter) => {
         acc = iter.next().value;
     }
 
-    for(const a of iter) {
+    for(const iterItem of iter) {
         console.log(a)
         console.log(acc)
-        acc = f(acc , a)
+        acc = f(acc , iterItem) // f = (a :배열 초기값 -> 변경된 배열 값, f) => f(a)
     }
     return acc ;
 });
@@ -83,7 +86,7 @@ export const currygo = (...args) => {
 
 console.log('not curring',currygo(
     products,
-    products => curryfilter(p => p.price < 20000)(products),
+    products => curryfilter(p => p.price < 20000)(products), //해석을 해봅시다. products를 받아서, 
     products => currymap(p => p.price)(products),
     prices => curryreduce(add)(prices)
 )) // 30000

@@ -16,12 +16,12 @@ const total_quantity = products => go(products,
     reduce((a, b) => a + b));
 
 // 위 코드를 pipe 함수로 변경 할 수 있습니다.
-const total_quantity_widthpipe = pipe( 
+const total_quantity_withpipe = pipe( 
     map(p => p.quntity),
     reduce((a, b) => a + b));
 
 total_quantity(products) // 15
-total_quantity_widthpipe(products) //15
+total_quantity_withpipe(products) //15
 
 const total_price = pipe(
     map(p => p.price * p.quntity),

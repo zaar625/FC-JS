@@ -22,3 +22,5 @@ console.log(go(
     products => map(p => p.price, products),
     prices => reduce(add, prices )
 )) // 30000
+
+//

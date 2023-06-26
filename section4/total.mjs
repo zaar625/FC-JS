@@ -18,6 +18,11 @@ const products = [
   ];
 
 const add = (a, b) => a + b;
+const pipe = (f, ...fs) => (...as) => {
+  // console.log('as:',as);
+
+  return go(f(...as), ...fs) // go(1, fn)
+};
 
 const total_price = pipe(
     currymap(p => p.price),
