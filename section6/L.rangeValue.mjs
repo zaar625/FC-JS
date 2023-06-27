@@ -5,11 +5,25 @@
  * 제너레이터/이터레이터 프로토콜을 기반으로 구현
  */
 
-// L.map
+// L.map (지연성을 가진 map)
+const Lmap = function *(f, iter) {
+    for(const a of iter) yield f(a);
+}
 
+let it = Lmap(a => a + 10, [1, 2, 3]);
 
-// L.filter
+console.log(it.next()) //{ value: 11, done: false }
+console.log([...it]) //[ 12, 13 ]
 
+// L.filter(지연성을 가진 filter)
+
+const Lfilter = function *(f, iter) {
+    for(const a of iter) if(f(a)) yield a;
+}
+
+let filterIt = Lfilter(a => a % 2, [1, 2, 3, 4]);
+
+console.log('filterIt:',filterIt.next())
 // map, filter 계열 함수들이 가지는 결합 법칙
 /**
  * 사용하는 데이터가 무엇이든지
