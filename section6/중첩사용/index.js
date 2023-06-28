@@ -20,14 +20,17 @@ const range = l => {
 
   const map = curry((f, iter) => {
     let res = [];
+    //start
     iter = iter[Symbol.iterator]();
     let cur;
     while (!(cur = iter.next()).done) {
       const a = cur.value;
       res.push(f(a));
     }
+    // end
     return res;
   });
+  // 위 코드 주석에서 (start~end) = for(const a of iter) 부분의 역할입니다.
 
   const filter = curry((f, iter) => {
     let res = [];
@@ -67,9 +70,45 @@ const range = l => {
     return acc;
   });
 
-// console.time('');
-  console.log(go(range(10),
-    map(n => n + 10),
-    filter(n => n % 2),
-    take(10)));
-// console.timeEnd('');
+console.time('');
+  // go(
+  //   range(10),
+  //   map(n => n + 10),
+  //   filter(n => n % 2),
+  //   take(10));
+console.timeEnd('');
+
+//--------------------------------------
+L.range = function* (l) {
+  let i = -1;
+  while (++i < l) {
+    yield i;
+  }
+};
+
+L.map = curry(function* (f, iter) {
+  iter = iter[Symbol.iterator]();
+  let cur;
+  while (!(cur = iter.next()).done) {
+    const a = cur.value;
+    yield f(a);
+  }
+});
+
+L.filter = curry(function* (f, iter) {
+  iter = iter[Symbol.iterator]();
+  let cur;
+  while (!(cur = iter.next()).done) {
+    const a = cur.value;
+    if (f(a)) {
+      yield a;
+    }
+  }
+});
+
+  console.time('L');
+  go(L.range(10),
+    L.map(n => n + 10),
+    L.filter(n => n % 2),
+    take(2));
+  console.timeEnd('L');
