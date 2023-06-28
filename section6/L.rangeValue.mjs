@@ -24,6 +24,7 @@ const Lfilter = function *(f, iter) {
 let filterIt = Lfilter(a => a % 2, [1, 2, 3, 4]);
 
 console.log('filterIt:',filterIt.next())
+
 // map, filter 계열 함수들이 가지는 결합 법칙
 /**
  * 사용하는 데이터가 무엇이든지
