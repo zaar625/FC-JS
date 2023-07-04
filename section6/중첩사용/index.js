@@ -110,5 +110,5 @@ L.filter = curry(function* (f, iter) {
   go(L.range(10),
     L.map(n => n + 10),
     L.filter(n => n % 2),
-    take(2));
+    take(3));
   console.timeEnd('L');
