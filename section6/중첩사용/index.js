@@ -71,11 +71,11 @@ const range = l => {
   });
 
 console.time('');
-  // go(
-  //   range(10),
-  //   map(n => n + 10),
-  //   filter(n => n % 2),
-  //   take(10));
+  go(
+    range(10),
+    map(n => n + 10),
+    filter(n => n % 2),
+    take(10));
 console.timeEnd('');
 
 //--------------------------------------
