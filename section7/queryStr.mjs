@@ -55,4 +55,4 @@ const queryStr2 = pipe(
 )
 
 console.log(queryStr({limit: 10, offset: 10, type:'notice'}))
-console.log(queryStr2({limit: 21, offset: 2, type:'admin'}))
+// console.log(queryStr2({limit: 21, offset: 2, type:'admin'}))

@@ -1,61 +1,15 @@
+// queryStr 함수 만들기
 const curry = f =>
   (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
-const go = (...args) => reduce((a, f) => f(a), args);
+const go = (...args) => reduce((a, f) => f(a), args); //f((a, f) => f(a), args) : f는 curry 인자에 들어간 함수.
 
 const pipe = (f, ...fs) => (...as) => go(f(...as), ...fs);
 
 var add = (a, b) => a + b;
 
-const L = {};
-
-const range = l => {
-    let i = -1;
-    let res = [];
-    while (++i < l) {
-      res.push(i);
-    }
-    return res;
-  };
-
-  const map = curry((f, iter) => {
-    let res = [];
-    //start
-    iter = iter[Symbol.iterator]();
-    let cur;
-    while (!(cur = iter.next()).done) {
-      const a = cur.value;
-      res.push(f(a));
-    }
-    // end
-    return res;
-  });
-  // 위 코드 주석에서 (start~end) = for(const a of iter) 부분의 역할입니다.
-
-  const filter = curry((f, iter) => {
-    let res = [];
-    iter = iter[Symbol.iterator]();
-    let cur;
-    while (!(cur = iter.next()).done) {
-      const a = cur.value;
-      if (f(a)) res.push(a);
-    }
-    return res;
-  });
-
-  const take = curry((l, iter) => {
-    let res = [];
-    iter = iter[Symbol.iterator]();
-    let cur;
-    while (!(cur = iter.next()).done) {
-      const a = cur.value;
-      res.push(a);
-      if (res.length == l) return res;
-    }
-    return res;
-  });
-
-  const reduce = curry((f, acc, iter) => {
+//f: (a, f) => f(a) 
+const reduce = curry((f, acc, iter) => {
     if (!iter) {
       iter = acc[Symbol.iterator]();
       acc = iter.next().value;
@@ -66,14 +20,42 @@ const range = l => {
     while (!(cur = iter.next()).done) {
       const a = cur.value;
       acc = f(acc, a);
+
+      //1. acc :(3) [Array(2), Array(2), Array(2)]
     }
     return acc;
   });
 
-console.time('');
-  go(
-    range(10),
-    map(n => n + 10),
-    filter(n => n % 2),
-    take(10));
-console.timeEnd('');
+const map = curry((f, iter) => {
+let res = [];
+//start
+iter = iter[Symbol.iterator]();
+let cur;
+while (!(cur = iter.next()).done) {
+    const a = cur.value;
+    res.push(f(a));
+}
+// end
+return res;
+});
+
+
+
+
+const queryStr = obj => go(
+    obj,
+    Object.entries,//f
+    map(([k,v]) => `${k}=${v}`), //(..._) => f(([k,v]) => `${k}=${v}, ..._)
+    reduce((a, b)=> `${a}&${b}`)//(..._) => f((a, b)=> `${a}&${b}`, ..._)
+)
+
+//위 코드를 pipe를 이용하여 동일한 값을 가져올 수 있습니다. 
+
+// const queryStr2 = pipe(
+//     Object.entries,
+//     map(([k,v]) => `${k}=${v}`),
+//     reduce((a, b)=> `${a}&${b}`)
+// )
+
+console.log(queryStr({limit: 10, offset: 10, type:'notice'}))
+// console.log(queryStr2({limit: 21, offset: 2, type:'admin'}))
