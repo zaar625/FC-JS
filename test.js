@@ -18,10 +18,10 @@ const reduce = curry((f, acc, iter) => {
     }
     let cur;
     while (!(cur = iter.next()).done) {
-      const a = cur.value;
-      acc = f(acc, a);
+      const a = cur.value; // a: 1. entries()  2. map함수 (..._) => f(a, ..._)  
+      acc = f(acc, a); // f(acc, (..._) => f(a, ..._)) => map f([k,v])=> `${a}&${b}`, acc)
 
-      //1. acc :(3) [Array(2), Array(2), Array(2)]
+      //1. acc :Array(3)[Array(2), Array(2), Array(2)]
     }
     return acc;
   });
@@ -45,8 +45,8 @@ return res;
 const queryStr = obj => go(
     obj,
     Object.entries,//f
-    map(([k,v]) => `${k}=${v}`), //(..._) => f(([k,v]) => `${k}=${v}, ..._)
-    reduce((a, b)=> `${a}&${b}`)//(..._) => f((a, b)=> `${a}&${b}`, ..._)
+    map(([k,v]) => `${k}=${v}`), //(..._) => f(([k,v]) => `${k}=${v}, ..._) //(..._) => f(a, ..._)
+    reduce((a, b)=> `${a}&${b}`)//(..._) => f((a, b)=> `${a}&${b}`, ..._) //(..._) => f(a, ..._)
 )
 
 //위 코드를 pipe를 이용하여 동일한 값을 가져올 수 있습니다. 
